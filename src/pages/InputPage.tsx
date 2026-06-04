@@ -1,5 +1,6 @@
 import type { EngineerProfile, MainAbility, SpecialAbility } from '../types/ability'
 import ProfileForm from '../components/ProfileForm'
+import MainAbilityForm from '../components/MainAbilityForm'
 
 interface InputPageProps {
   profile: EngineerProfile
@@ -17,6 +18,7 @@ export default function InputPage({
   mainAbilities,
   specialAbilities,
   onProfileChange,
+  onMainAbilitiesChange,
   onSubmit,
   onBack,
 }: InputPageProps) {
@@ -42,12 +44,11 @@ export default function InputPage({
         {/* 基本情報 */}
         <ProfileForm profile={profile} onChange={onProfileChange} />
 
-        {/* タスク12・13でここに追加 */}
-        <div className="bg-slate-800 border border-dashed border-slate-600 rounded-lg p-5 text-center text-slate-500 text-sm">
-          メイン能力入力（タスク12で追加）
-          <br />
-          <span className="text-xs">{mainAbilities.length}項目</span>
-        </div>
+        {/* メイン能力入力 */}
+        <MainAbilityForm
+          mainAbilities={mainAbilities}
+          onChange={onMainAbilitiesChange}
+        />
 
         <div className="bg-slate-800 border border-dashed border-slate-600 rounded-lg p-5 text-center text-slate-500 text-sm">
           特殊能力選択（タスク13で追加）
