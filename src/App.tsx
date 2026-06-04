@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { EngineerProfile, MainAbility, SpecialAbility } from './types/ability'
 import { initialMainAbilities, initialSpecialAbilities } from './data/abilities'
+import TopPage from './pages/TopPage'
 
 export type Screen = 'top' | 'input' | 'result'
 
@@ -22,18 +23,9 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white p-8">
+    <div>
       {screen === 'top' && (
-        <div>
-          <h1 className="text-2xl font-bold mb-4">SE Ability Visualizer</h1>
-          <p className="mb-4 text-slate-300">トップ画面（仮）</p>
-          <button
-            className="bg-blue-600 px-4 py-2 rounded"
-            onClick={() => setScreen('input')}
-          >
-            能力を入力する
-          </button>
-        </div>
+        <TopPage onStart={() => setScreen('input')} />
       )}
 
       {screen === 'input' && (
