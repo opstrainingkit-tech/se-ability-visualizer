@@ -20,7 +20,7 @@ export default function ResultPage({ data, onBack, onReset }: ResultPageProps) {
           ← 入力に戻る
         </button>
         <span className="text-blue-300 text-xs tracking-widest uppercase">
-          Status Card
+          Result
         </span>
         <button
           onClick={onReset}
@@ -31,8 +31,13 @@ export default function ResultPage({ data, onBack, onReset }: ResultPageProps) {
       </div>
 
       {/* カードエリア */}
-      <div className="max-w-lg mx-auto px-6 py-8">
+      <div className="max-w-sm mx-auto px-4 py-8">
         <StatusCard data={data} />
+
+        {/* スクショ案内 */}
+        <p className="text-center text-slate-600 text-xs mt-4">
+          スクリーンショットしてSNSでシェアできます
+        </p>
       </div>
 
     </div>
