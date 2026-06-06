@@ -1,0 +1,92 @@
+[
+  {
+    "icon": "✅",
+    "step": "1. トップページ表示",
+    "detail": "title=\"SE能力可視化\", h1=\"SE Ability\", startBtn=true",
+    "line": "✅ 1. トップページ表示 → title=\"SE能力可視化\", h1=\"SE Ability\", startBtn=true"
+  },
+  {
+    "icon": "✅",
+    "step": "2. 入力ページへ遷移",
+    "detail": "sliders=7",
+    "line": "✅ 2. 入力ページへ遷移 → sliders=7"
+  },
+  {
+    "icon": "✅",
+    "step": "3. プロフィール入力",
+    "detail": "name=\"テスト太郎\", inputs=3",
+    "line": "✅ 3. プロフィール入力 → name=\"テスト太郎\", inputs=3"
+  },
+  {
+    "icon": "✅",
+    "step": "4. スライダー7項目確認",
+    "detail": "count=7",
+    "line": "✅ 4. スライダー7項目確認 → count=7"
+  },
+  {
+    "icon": "✅",
+    "step": "4a. スライダー値変更",
+    "detail": "開発力=\"90\" (S), 設計力=\"80\" (A), インフラ力=\"70\" (B)",
+    "line": "✅ 4a. スライダー値変更 → 開発力=\"90\" (S), 設計力=\"80\" (A), インフラ力=\"70\" (B)"
+  },
+  {
+    "icon": "✅",
+    "step": "5. 特殊能力タグ選択",
+    "detail": "3件クリック (PHP, TypeScript, React)",
+    "line": "✅ 5. 特殊能力タグ選択 → 3件クリック (PHP, TypeScript, React)"
+  },
+  {
+    "icon": "✅",
+    "step": "6. 結果ページへ遷移",
+    "detail": "resultHeader=true",
+    "line": "✅ 6. 結果ページへ遷移 → resultHeader=true"
+  },
+  {
+    "icon": "✅",
+    "step": "7a. 名前表示確認",
+    "detail": "name=true",
+    "line": "✅ 7a. 名前表示確認 → name=true"
+  },
+  {
+    "icon": "✅",
+    "step": "7b. タイプ名表示確認",
+    "detail": "typeName=true",
+    "line": "✅ 7b. タイプ名表示確認 → typeName=true"
+  },
+  {
+    "icon": "✅",
+    "step": "8. 戻るボタン確認",
+    "detail": "visible=true",
+    "line": "✅ 8. 戻るボタン確認 → visible=true"
+  },
+  {
+    "icon": "✅",
+    "step": "8a. 入力ページに戻る",
+    "detail": "sliders=7",
+    "line": "✅ 8a. 入力ページに戻る → sliders=7"
+  },
+  {
+    "icon": "✅",
+    "step": "9. リセットボタン確認",
+    "detail": "visible=true",
+    "line": "✅ 9. リセットボタン確認 → visible=true"
+  },
+  {
+    "icon": "✅",
+    "step": "9a. リセット後トップへ",
+    "detail": "backToTop=true",
+    "line": "✅ 9a. リセット後トップへ → backToTop=true"
+  },
+  {
+    "icon": "✅",
+    "step": "10. localStorage復元",
+    "detail": "restored=\"ローカルストレージテスト\"",
+    "line": "✅ 10. localStorage復元 → restored=\"ローカルストレージテスト\""
+  },
+  {
+    "icon": "🔍",
+    "step": "🔍 空プロフィールで結果ページ",
+    "detail": "accessible=true（バリデーションなし）",
+    "line": "🔍 🔍 空プロフィールで結果ページ → accessible=true（バリデーションなし）"
+  }
+]
