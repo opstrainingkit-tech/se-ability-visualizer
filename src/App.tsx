@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { EngineerProfile, MainAbility, SpecialAbility } from './types/ability'
 import { initialMainAbilities, initialSpecialAbilities } from './data/abilities'
 import { loadFromStorage, saveToStorage } from './utils/storage'
+import { trackStartInput, trackShowResult, trackBackToInput, trackResetForm } from './utils/analytics'
 import TopPage from './pages/TopPage'
 import InputPage from './pages/InputPage'
 import ResultPage from './pages/ResultPage'
@@ -37,7 +38,7 @@ function App() {
   return (
     <div>
       {screen === 'top' && (
-        <TopPage onStart={() => setScreen('input')} />
+        <TopPage onStart={() => { trackStartInput(); setScreen('input') }} />
       )}
 
       {screen === 'input' && (
@@ -48,7 +49,7 @@ function App() {
           onProfileChange={setProfile}
           onMainAbilitiesChange={setMainAbilities}
           onSpecialAbilitiesChange={setSpecialAbilities}
-          onSubmit={() => setScreen('result')}
+          onSubmit={() => { trackShowResult(); setScreen('result') }}
           onBack={() => setScreen('top')}
         />
       )}
@@ -56,8 +57,8 @@ function App() {
       {screen === 'result' && (
         <ResultPage
           data={{ profile, mainAbilities, specialAbilities }}
-          onBack={() => setScreen('input')}
-          onReset={() => { handleReset(); setScreen('top') }}
+          onBack={() => { trackBackToInput(); setScreen('input') }}
+          onReset={() => { trackResetForm(); handleReset(); setScreen('top') }}
         />
       )}
     </div>
