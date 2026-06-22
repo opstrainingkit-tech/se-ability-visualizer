@@ -18,12 +18,14 @@ export default function SpecialAbilitySelector({
   const selectedCount = specialAbilities.filter(a => a.selected).length
 
   return (
-    <div className="bg-slate-800 border border-slate-600 rounded-lg p-5">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-blue-300 text-xs tracking-widest uppercase">
-          — Special Abilities —
-        </h2>
-        <span className="text-slate-400 text-xs">
+    <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-2xl p-5 shadow-lg shadow-blue-900/10">
+      <div className="relative mb-5">
+        <img
+          src="/assets/tabs/tab-special-ability.png"
+          alt="特殊能力"
+          className="h-11 mx-auto"
+        />
+        <span className="absolute right-0 top-1/2 -translate-y-1/2 text-slate-500 text-xs">
           {selectedCount} 選択中
         </span>
       </div>
@@ -36,8 +38,8 @@ export default function SpecialAbilitySelector({
             className={`
               px-3 py-1 rounded-full text-xs font-medium border transition-colors duration-150
               ${ability.selected
-                ? 'bg-blue-600 border-blue-400 text-white'
-                : 'bg-slate-700 border-slate-500 text-slate-300 hover:border-blue-400 hover:text-white'
+                ? 'bg-blue-600 border-blue-600 text-white shadow-sm'
+                : 'bg-white border-slate-300 text-slate-600 hover:border-blue-400 hover:text-blue-600'
               }
             `}
           >

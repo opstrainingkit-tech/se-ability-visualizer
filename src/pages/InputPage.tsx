@@ -25,46 +25,55 @@ export default function InputPage({
   onBack,
 }: InputPageProps) {
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
-
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed"
+      style={{ backgroundImage: "url('/assets/backgrounds/background-sky.png')" }}
+    >
       {/* ヘッダー */}
-      <div className="border-b border-slate-700 px-6 py-4 flex items-center justify-between">
+      <div className="sticky top-0 z-10 bg-white/70 backdrop-blur-md border-b border-white/60 px-5 py-3 flex items-center justify-between">
         <button
           onClick={onBack}
-          className="text-slate-400 hover:text-white text-sm transition-colors"
+          className="text-blue-700 hover:text-blue-900 text-sm font-medium transition-colors"
         >
           ← トップへ戻る
         </button>
-        <span className="text-blue-300 text-xs tracking-widest uppercase">
+        <span className="text-blue-500 text-xs tracking-widest uppercase font-semibold">
           Ability Input
         </span>
       </div>
 
       {/* フォームエリア */}
-      <div className="max-w-lg mx-auto px-6 py-8 space-y-6">
+      <div className="max-w-lg mx-auto px-5 py-8 space-y-6">
 
-        {/* 基本情報 */}
         <ProfileForm profile={profile} onChange={onProfileChange} />
 
-        {/* メイン能力入力 */}
         <MainAbilityForm
           mainAbilities={mainAbilities}
           onChange={onMainAbilitiesChange}
         />
 
-        {/* 特殊能力選択 */}
         <SpecialAbilitySelector
           specialAbilities={specialAbilities}
           onChange={onSpecialAbilitiesChange}
         />
 
-        {/* 送信ボタン */}
-        <button
-          onClick={onSubmit}
-          className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg transition-colors tracking-wide"
-        >
-          ▶ 結果を見る
-        </button>
+        {/* 送信ボタン（画像ボタン＋テキスト） */}
+        <div className="flex justify-center pt-2">
+          <button
+            onClick={onSubmit}
+            aria-label="結果を見る"
+            className="relative w-72 h-16 flex items-center justify-center transition-transform duration-150 hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            style={{
+              backgroundImage: "url('/assets/buttons/button-pill-blue.png')",
+              backgroundSize: '100% 100%',
+              backgroundRepeat: 'no-repeat',
+            }}
+          >
+            <span className="text-white font-bold text-lg tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
+              ▶ 結果を見る
+            </span>
+          </button>
+        </div>
 
       </div>
     </div>
