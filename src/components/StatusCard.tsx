@@ -1,34 +1,43 @@
-import type { AbilityCardData, Rank } from '../types/ability'
+import type { AbilityCardData, MainAbilityId, Rank } from '../types/ability'
 import { getRank } from '../utils/getRank'
 
 interface StatusCardProps {
   data: AbilityCardData
 }
 
-const rankStyle: Record<Rank, { badge: string; bar: string; glow: string }> = {
-  S: { badge: 'bg-yellow-400 text-slate-900',  bar: 'bg-yellow-400',  glow: 'shadow-yellow-400/40' },
-  A: { badge: 'bg-orange-400 text-slate-900',  bar: 'bg-orange-400',  glow: 'shadow-orange-400/40' },
-  B: { badge: 'bg-green-400 text-slate-900',   bar: 'bg-green-400',   glow: 'shadow-green-400/40'  },
-  C: { badge: 'bg-blue-400 text-slate-900',    bar: 'bg-blue-400',    glow: 'shadow-blue-400/40'   },
-  D: { badge: 'bg-slate-300 text-slate-900',   bar: 'bg-slate-300',   glow: ''                     },
-  E: { badge: 'bg-slate-500 text-white',        bar: 'bg-slate-500',   glow: ''                     },
-  F: { badge: 'bg-slate-600 text-white',        bar: 'bg-slate-600',   glow: ''                     },
-  G: { badge: 'bg-slate-700 text-slate-400',   bar: 'bg-slate-700',   glow: ''                     },
+const rankBar: Record<Rank, string> = {
+  S: 'bg-yellow-400',
+  A: 'bg-orange-400',
+  B: 'bg-green-400',
+  C: 'bg-blue-400',
+  D: 'bg-slate-300',
+  E: 'bg-slate-400',
+  F: 'bg-slate-500',
+  G: 'bg-slate-600',
 }
 
-function calcOverallRank(mainAbilities: AbilityCardData['mainAbilities']): Rank {
-  const avg = mainAbilities.reduce((sum, a) => sum + a.score, 0) / mainAbilities.length
-  return getRank(Math.round(avg))
+const abilityIcon: Record<MainAbilityId, string> = {
+  development: '/assets/abilities/ability-development.png',
+  design: '/assets/abilities/ability-design.png',
+  infrastructure: '/assets/abilities/ability-infrastructure.png',
+  database: '/assets/abilities/ability-database.png',
+  lead: '/assets/abilities/ability-lead.png',
+  management: '/assets/abilities/ability-management.png',
+  aiUtilization: '/assets/abilities/ability-ai.png',
 }
+
+const rankImg = (rank: Rank) => `/assets/ranks/rank-${rank.toLowerCase()}.png`
 
 export default function StatusCard({ data }: StatusCardProps) {
   const { profile, mainAbilities, specialAbilities } = data
   const selected = specialAbilities.filter(a => a.selected)
-  const overallRank = calcOverallRank(mainAbilities)
-  const overallStyle = rankStyle[overallRank]
+  const avg = Math.round(
+    mainAbilities.reduce((sum, a) => sum + a.score, 0) / mainAbilities.length
+  )
+  const overallRank = getRank(avg)
 
   return (
-    <div className="bg-slate-900 border-2 border-blue-400 rounded-xl overflow-hidden shadow-2xl shadow-blue-900/50">
+    <div className="bg-slate-900 border-2 border-blue-400 rounded-2xl overflow-hidden shadow-2xl shadow-blue-900/50">
 
       {/* カードヘッダー */}
       <div className="bg-gradient-to-r from-slate-800 to-slate-900 border-b border-blue-400/40 px-5 py-3 flex items-center justify-between">
@@ -41,24 +50,13 @@ export default function StatusCard({ data }: StatusCardProps) {
       <div className="p-5 space-y-5">
 
         {/* プロフィールエリア */}
-        <div className="flex items-start gap-4">
-          {/* 総合ランクバッジ */}
-          <div className={`
-            flex-shrink-0 w-14 h-14 rounded-lg border-2 border-blue-400
-            flex flex-col items-center justify-center
-            bg-slate-800 shadow-lg ${overallStyle.glow}
-          `}>
-            <span className="text-slate-400 text-[9px] leading-none mb-0.5">RANK</span>
-            <span className={`text-2xl font-black leading-none ${
-              overallRank === 'S' ? 'text-yellow-400' :
-              overallRank === 'A' ? 'text-orange-400' :
-              overallRank === 'B' ? 'text-green-400'  :
-              overallRank === 'C' ? 'text-blue-400'   : 'text-slate-400'
-            }`}>
-              {overallRank}
-            </span>
-          </div>
-
+        <div className="flex items-center gap-4">
+          {/* アバター */}
+          <img
+            src="/assets/profile/avatar-boy.png"
+            alt="アバター"
+            className="w-16 h-16 rounded-full object-cover ring-2 ring-blue-400 shadow-lg shadow-blue-900/50 shrink-0 bg-slate-800"
+          />
           {/* 名前・タイプ */}
           <div className="flex-1 min-w-0">
             <p className="text-white text-xl font-bold leading-tight truncate">
@@ -75,6 +73,29 @@ export default function StatusCard({ data }: StatusCardProps) {
           </div>
         </div>
 
+        {/* 総合ランク（月桂冠＋ランクバッジ） */}
+        <div className="flex flex-col items-center">
+          <p className="text-blue-300 text-[10px] tracking-[0.3em] uppercase mb-1">
+            Total Rank
+          </p>
+          <div className="relative w-36 h-24 flex items-center justify-center">
+            <img
+              src="/assets/profile/decoration-laurel.png"
+              alt=""
+              aria-hidden
+              className="absolute inset-0 w-full h-full object-contain"
+            />
+            <img
+              src={rankImg(overallRank)}
+              alt={`総合ランク ${overallRank}`}
+              className="relative w-14 h-14 drop-shadow-lg mb-1"
+            />
+          </div>
+          <p className="text-slate-400 text-xs -mt-1">
+            平均スコア <span className="text-white font-bold font-mono">{avg}</span>
+          </p>
+        </div>
+
         {/* 区切り */}
         <div className="border-t border-slate-700" />
 
@@ -86,25 +107,30 @@ export default function StatusCard({ data }: StatusCardProps) {
           <div className="space-y-2.5">
             {mainAbilities.map(ability => {
               const rank = getRank(ability.score)
-              const style = rankStyle[rank]
               return (
-                <div key={ability.id}>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-slate-200 text-sm">{ability.label}</span>
-                    <div className="flex items-center gap-2">
-                      <span className={`text-[11px] font-black px-1.5 py-0.5 rounded ${style.badge}`}>
-                        {rank}
-                      </span>
-                      <span className="text-slate-400 text-xs w-6 text-right font-mono tabular-nums">
-                        {ability.score}
-                      </span>
+                <div key={ability.id} className="flex items-center gap-2.5">
+                  <img
+                    src={abilityIcon[ability.id]}
+                    alt=""
+                    aria-hidden
+                    className="w-7 h-7 shrink-0 drop-shadow"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-slate-200 text-sm">{ability.label}</span>
+                      <div className="flex items-center gap-1.5">
+                        <img src={rankImg(rank)} alt={rank} className="w-5 h-5 drop-shadow" />
+                        <span className="text-slate-400 text-xs w-6 text-right font-mono tabular-nums">
+                          {ability.score}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="w-full bg-slate-700 rounded-full h-1.5">
-                    <div
-                      className={`h-1.5 rounded-full ${style.bar}`}
-                      style={{ width: `${ability.score}%` }}
-                    />
+                    <div className="w-full bg-slate-700 rounded-full h-1.5">
+                      <div
+                        className={`h-1.5 rounded-full ${rankBar[rank]}`}
+                        style={{ width: `${ability.score}%` }}
+                      />
+                    </div>
                   </div>
                 </div>
               )
