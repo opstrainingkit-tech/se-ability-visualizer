@@ -4,48 +4,44 @@ interface TopPageProps {
 
 export default function TopPage({ onStart }: TopPageProps) {
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-6">
-      <div className="w-full max-w-md">
+    <div
+      className="min-h-screen flex items-center justify-center p-6 bg-cover bg-center"
+      style={{ backgroundImage: "url('/assets/backgrounds/background-sky.png')" }}
+    >
+      <div className="w-full max-w-sm flex flex-col items-center">
 
-        {/* ゲーム風パネル */}
-        <div className="border-2 border-blue-400 bg-slate-800 rounded-lg p-8 text-center shadow-lg shadow-blue-900/50">
+        {/* ロゴ（タイトル＋装飾） */}
+        <img
+          src="/assets/backgrounds/app-logo.png"
+          alt="SE Ability Visualizer — SEアビリティ可視化アプリ"
+          className="w-full max-w-xs rounded-2xl shadow-xl shadow-blue-900/30 ring-1 ring-white/50 mb-8"
+        />
 
-          {/* ヘッダーラベル */}
-          <p className="text-blue-400 text-xs tracking-[0.3em] mb-6 uppercase">
-            — Status System —
-          </p>
+        {/* 説明文 */}
+        <p className="text-blue-950 font-medium text-sm leading-relaxed mb-8 text-center bg-white/70 backdrop-blur-sm rounded-full px-5 py-2 shadow-sm">
+          ITエンジニアの能力を<br className="sm:hidden" />ステータス画面風に可視化します
+        </p>
 
-          {/* アプリ名 */}
-          <h1 className="text-3xl font-bold text-white mb-2 tracking-wide">
-            SE Ability
-          </h1>
-          <h1 className="text-3xl font-bold text-blue-300 mb-6 tracking-wide">
-            Visualizer
-          </h1>
-
-          {/* 区切り線 */}
-          <div className="border-t border-slate-600 mb-6" />
-
-          {/* 説明文 */}
-          <p className="text-slate-300 text-sm leading-relaxed mb-8">
-            ITエンジニアの能力を<br />
-            ステータス画面風に可視化します
-          </p>
-
-          {/* 開始ボタン */}
-          <button
-            onClick={onStart}
-            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 tracking-wide"
-          >
+        {/* 開始ボタン（画像ボタン＋テキスト） */}
+        <button
+          onClick={onStart}
+          aria-label="能力を入力する"
+          className="relative w-72 h-16 flex items-center justify-center transition-transform duration-150 hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          style={{
+            backgroundImage: "url('/assets/buttons/button-pill-blue.png')",
+            backgroundSize: '100% 100%',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          <span className="text-white font-bold text-lg tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
             ▶ 能力を入力する
-          </button>
+          </span>
+        </button>
 
-          {/* フッターラベル */}
-          <p className="text-slate-600 text-xs mt-6">
-            ver 0.1.0 MVP
-          </p>
-        </div>
-
+        {/* フッターラベル */}
+        <p className="text-white text-xs mt-6 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+          ver 0.1.0 MVP
+        </p>
       </div>
     </div>
   )
