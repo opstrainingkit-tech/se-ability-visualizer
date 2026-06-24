@@ -15,3 +15,7 @@ export function trackBackToInput() {
 export function trackResetForm() {
   track('reset_form')
 }
+
+export function trackShareClick(method: 'webshare' | 'x' | 'copy') {
+  track('share_click', { method })
+}

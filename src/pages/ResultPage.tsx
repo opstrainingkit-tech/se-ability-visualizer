@@ -1,5 +1,7 @@
 import type { AbilityCardData } from '../types/ability'
+import { getRank } from '../utils/getRank'
 import StatusCard from '../components/StatusCard'
+import ShareActions from '../components/ShareActions'
 
 interface ResultPageProps {
   data: AbilityCardData
@@ -8,6 +10,11 @@ interface ResultPageProps {
 }
 
 export default function ResultPage({ data, onBack, onReset }: ResultPageProps) {
+  const avg = Math.round(
+    data.mainAbilities.reduce((sum, a) => sum + a.score, 0) / data.mainAbilities.length
+  )
+  const overallRank = getRank(avg)
+
   return (
     <div
       className="min-h-screen bg-cover bg-center bg-fixed"
@@ -36,12 +43,9 @@ export default function ResultPage({ data, onBack, onReset }: ResultPageProps) {
       <div className="max-w-sm mx-auto px-4 py-8">
         <StatusCard data={data} />
 
-        {/* スクショ案内 */}
-        <div className="mt-5 flex items-center justify-center gap-2 text-blue-900/80 bg-white/70 backdrop-blur-sm rounded-full px-4 py-2 shadow-sm">
-          <img src="/assets/icons/icon-share.png" alt="" aria-hidden className="w-4 h-4" />
-          <p className="text-xs font-medium">
-            スクリーンショットしてSNSでシェアできます
-          </p>
+        {/* 共有導線 */}
+        <div className="mt-5">
+          <ShareActions rank={overallRank} avg={avg} />
         </div>
       </div>
 
