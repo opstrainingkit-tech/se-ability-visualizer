@@ -40,7 +40,7 @@ export default function ResultPage({ data, onBack, onReset }: ResultPageProps) {
       </div>
 
       {/* カードエリア */}
-      <div className="max-w-sm mx-auto px-4 py-8">
+      <div className="max-w-sm mx-auto px-4 py-8 pb-28">
         <StatusCard data={data} />
 
         {/* 共有導線 */}

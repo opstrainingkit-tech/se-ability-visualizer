@@ -1,7 +1,7 @@
 export type TabKey = 'top' | 'status' | 'special'
 
 interface BottomNavProps {
-  active: TabKey
+  active: TabKey | null
   onChange: (tab: TabKey) => void
   selectedCount: number
 }

@@ -43,44 +43,52 @@ function App() {
     setSelectedSpecialIds([])
   }
 
-  // 結果画面（全画面オーバーレイ・下部ナビは隠す）
-  if (showResult) {
-    return (
-      <ResultPage
-        data={{ profile, mainAbilities, selectedSpecialIds }}
-        onBack={() => { trackBackToInput(); setShowResult(false) }}
-        onReset={() => { trackResetForm(); handleReset(); setShowResult(false); setTab('top') }}
-      />
-    )
+  const goTab = (t: TabKey) => {
+    setShowResult(false)
+    setTab(t)
   }
 
   return (
     <div>
-      {tab === 'top' && (
-        <TopPage
-          onStart={() => { trackStartInput(); setTab('status') }}
-          onShowResult={openResult}
+      {showResult ? (
+        <ResultPage
+          data={{ profile, mainAbilities, selectedSpecialIds }}
+          onBack={() => { trackBackToInput(); setShowResult(false) }}
+          onReset={() => { trackResetForm(); handleReset(); setShowResult(false); setTab('top') }}
         />
+      ) : (
+        <>
+          {tab === 'top' && (
+            <TopPage
+              onStart={() => { trackStartInput(); setTab('status') }}
+              onShowResult={openResult}
+            />
+          )}
+
+          {tab === 'status' && (
+            <StatusInputPage
+              profile={profile}
+              mainAbilities={mainAbilities}
+              onProfileChange={setProfile}
+              onMainAbilitiesChange={setMainAbilities}
+              onShowResult={openResult}
+            />
+          )}
+
+          {tab === 'special' && (
+            <SpecialAbilityPage
+              selectedIds={selectedSpecialIds}
+              onChange={setSelectedSpecialIds}
+            />
+          )}
+        </>
       )}
 
-      {tab === 'status' && (
-        <StatusInputPage
-          profile={profile}
-          mainAbilities={mainAbilities}
-          onProfileChange={setProfile}
-          onMainAbilitiesChange={setMainAbilities}
-          onShowResult={openResult}
-        />
-      )}
-
-      {tab === 'special' && (
-        <SpecialAbilityPage
-          selectedIds={selectedSpecialIds}
-          onChange={setSelectedSpecialIds}
-        />
-      )}
-
-      <BottomNav active={tab} onChange={setTab} selectedCount={selectedSpecialIds.length} />
+      <BottomNav
+        active={showResult ? null : tab}
+        onChange={goTab}
+        selectedCount={selectedSpecialIds.length}
+      />
     </div>
   )
 }
