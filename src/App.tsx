@@ -4,14 +4,16 @@ import { initialMainAbilities } from './data/abilities'
 import { sanitizeSelectedIds } from './data/specialAbilities'
 import { loadFromStorage, saveToStorage } from './utils/storage'
 import { trackStartInput, trackShowResult, trackBackToInput, trackResetForm } from './utils/analytics'
+import BottomNav from './components/BottomNav'
+import type { TabKey } from './components/BottomNav'
 import TopPage from './pages/TopPage'
-import InputPage from './pages/InputPage'
+import StatusInputPage from './pages/StatusInputPage'
+import SpecialAbilityPage from './pages/SpecialAbilityPage'
 import ResultPage from './pages/ResultPage'
 
-export type Screen = 'top' | 'input' | 'result'
-
 function App() {
-  const [screen, setScreen] = useState<Screen>('top')
+  const [tab, setTab] = useState<TabKey>('top')
+  const [showResult, setShowResult] = useState(false)
 
   const saved = loadFromStorage()
 
@@ -30,38 +32,55 @@ function App() {
     saveToStorage({ profile, mainAbilities, selectedSpecialIds })
   }, [profile, mainAbilities, selectedSpecialIds])
 
+  const openResult = () => {
+    trackShowResult()
+    setShowResult(true)
+  }
+
   const handleReset = () => {
     setProfile({ name: '', typeName: '', comment: '' })
     setMainAbilities(initialMainAbilities)
     setSelectedSpecialIds([])
   }
 
+  // 結果画面（全画面オーバーレイ・下部ナビは隠す）
+  if (showResult) {
+    return (
+      <ResultPage
+        data={{ profile, mainAbilities, selectedSpecialIds }}
+        onBack={() => { trackBackToInput(); setShowResult(false) }}
+        onReset={() => { trackResetForm(); handleReset(); setShowResult(false); setTab('top') }}
+      />
+    )
+  }
+
   return (
     <div>
-      {screen === 'top' && (
-        <TopPage onStart={() => { trackStartInput(); setScreen('input') }} />
+      {tab === 'top' && (
+        <TopPage
+          onStart={() => { trackStartInput(); setTab('status') }}
+          onShowResult={openResult}
+        />
       )}
 
-      {screen === 'input' && (
-        <InputPage
+      {tab === 'status' && (
+        <StatusInputPage
           profile={profile}
           mainAbilities={mainAbilities}
-          selectedSpecialIds={selectedSpecialIds}
           onProfileChange={setProfile}
           onMainAbilitiesChange={setMainAbilities}
-          onSelectedSpecialIdsChange={setSelectedSpecialIds}
-          onSubmit={() => { trackShowResult(); setScreen('result') }}
-          onBack={() => setScreen('top')}
+          onShowResult={openResult}
         />
       )}
 
-      {screen === 'result' && (
-        <ResultPage
-          data={{ profile, mainAbilities, selectedSpecialIds }}
-          onBack={() => { trackBackToInput(); setScreen('input') }}
-          onReset={() => { trackResetForm(); handleReset(); setScreen('top') }}
+      {tab === 'special' && (
+        <SpecialAbilityPage
+          selectedIds={selectedSpecialIds}
+          onChange={setSelectedSpecialIds}
         />
       )}
+
+      <BottomNav active={tab} onChange={setTab} selectedCount={selectedSpecialIds.length} />
     </div>
   )
 }
