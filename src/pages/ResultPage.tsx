@@ -26,7 +26,7 @@ export default function ResultPage({ data, onBack, onReset }: ResultPageProps) {
           onClick={onBack}
           className="text-blue-700 hover:text-blue-900 text-sm font-medium transition-colors"
         >
-          ← 入力に戻る
+          ← 戻る
         </button>
         <span className="text-blue-500 text-xs tracking-widest uppercase font-semibold">
           Result
@@ -40,7 +40,7 @@ export default function ResultPage({ data, onBack, onReset }: ResultPageProps) {
       </div>
 
       {/* カードエリア */}
-      <div className="max-w-sm mx-auto px-4 py-8">
+      <div className="max-w-sm mx-auto px-4 py-8 pb-28">
         <StatusCard data={data} />
 
         {/* 共有導線 */}
