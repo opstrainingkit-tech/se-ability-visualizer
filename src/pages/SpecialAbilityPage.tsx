@@ -5,6 +5,7 @@ import {
   specialTypeOrder,
   specialTypeMeta,
   specialTypeTagClass,
+  specialTypeIcon,
   categoryLabel,
   resolveSpecialAbilities,
   SPECIAL_SELECT_LIMIT,
@@ -139,16 +140,18 @@ export default function SpecialAbilityPage({ selectedIds, onChange }: SpecialAbi
             {(['all', ...specialTypeOrder] as const).map(t => {
               const isActive = activeType === t
               const label = t === 'all' ? 'すべて' : shortTypeLabel(t)
+              const icon = t === 'all' ? undefined : specialTypeIcon[t]
               return (
                 <button
                   key={t}
                   onClick={() => changeType(t)}
-                  className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
+                  className={`shrink-0 flex items-center gap-1 px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
                     isActive
                       ? 'bg-blue-600 border-blue-600 text-white shadow-sm'
                       : 'bg-white/80 border-slate-300 text-slate-600'
                   }`}
                 >
+                  {icon && <img src={icon} alt="" aria-hidden className="w-4 h-4 drop-shadow-sm" />}
                   {label}
                 </button>
               )
@@ -196,7 +199,13 @@ export default function SpecialAbilityPage({ selectedIds, onChange }: SpecialAbi
                     isSelected ? 'bg-blue-50/70' : disabled ? 'opacity-40' : 'hover:bg-slate-50'
                   }`}
                 >
-                  <span className={`w-2 h-2 rounded-full shrink-0 ${typeDot[a.type]}`} />
+                  {specialTypeIcon[a.type] ? (
+                    <img src={specialTypeIcon[a.type]} alt="" aria-hidden className="w-5 h-5 shrink-0 drop-shadow-sm" />
+                  ) : (
+                    <span className={`w-5 h-5 shrink-0 flex items-center justify-center`}>
+                      <span className={`w-2 h-2 rounded-full ${typeDot[a.type]}`} />
+                    </span>
+                  )}
                   <span className="flex-1 text-sm text-slate-800 truncate">{a.name}</span>
                   <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${typeBadge[a.type]}`}>
                     {shortTypeLabel(a.type)}
