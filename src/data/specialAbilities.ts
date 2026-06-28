@@ -21,6 +21,17 @@ export const specialTypeMeta: Record<
   growth: { label: '成長中能力', colorKey: 'gray' },
 }
 
+// 種別 → タグ配色クラス（border色も含む。borderを出す側で border 幅クラスを付ける）
+export const specialTypeTagClass: Record<SpecialAbilityType, string> = {
+  normal: 'bg-blue-100 text-blue-700 border-blue-300',
+  rare: 'bg-red-100 text-red-700 border-red-300',
+  achievement: 'bg-amber-100 text-amber-800 border-amber-300',
+  ai: 'bg-purple-100 text-purple-700 border-purple-300',
+  certification: 'bg-green-100 text-green-700 border-green-300',
+  negative: 'bg-slate-700 text-white border-slate-700',
+  growth: 'bg-slate-200 text-slate-600 border-slate-300',
+}
+
 // 種別タブの並び順
 export const specialTypeOrder: SpecialAbilityType[] = [
   'normal',

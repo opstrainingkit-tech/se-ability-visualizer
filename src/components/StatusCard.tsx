@@ -1,6 +1,6 @@
 import type { AbilityCardData, MainAbilityId, Rank } from '../types/ability'
 import { getRank } from '../utils/getRank'
-import { resolveSpecialAbilities } from '../data/specialAbilities'
+import { resolveSpecialAbilities, specialTypeTagClass } from '../data/specialAbilities'
 
 interface StatusCardProps {
   data: AbilityCardData
@@ -151,7 +151,7 @@ export default function StatusCard({ data }: StatusCardProps) {
                 {selected.map(ability => (
                   <span
                     key={ability.id}
-                    className="bg-blue-50 border border-blue-200 text-blue-700 text-xs px-2.5 py-1 rounded-full"
+                    className={`border text-xs px-2.5 py-1 rounded-full font-medium ${specialTypeTagClass[ability.type]}`}
                   >
                     {ability.name}
                   </span>

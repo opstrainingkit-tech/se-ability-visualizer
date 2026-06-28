@@ -4,6 +4,7 @@ import {
   specialAbilityMaster,
   specialTypeOrder,
   specialTypeMeta,
+  specialTypeTagClass,
   categoryLabel,
   resolveSpecialAbilities,
   SPECIAL_SELECT_LIMIT,
@@ -14,16 +15,8 @@ interface SpecialAbilityPageProps {
   onChange: (ids: string[]) => void
 }
 
-// 種別 → バッジ配色
-const typeBadge: Record<SpecialAbilityType, string> = {
-  normal: 'bg-blue-100 text-blue-700',
-  rare: 'bg-red-100 text-red-700',
-  achievement: 'bg-amber-100 text-amber-800',
-  ai: 'bg-purple-100 text-purple-700',
-  certification: 'bg-green-100 text-green-700',
-  negative: 'bg-slate-700 text-white',
-  growth: 'bg-slate-200 text-slate-600',
-}
+// 種別 → バッジ配色（共通マップを利用）
+const typeBadge = specialTypeTagClass
 const typeDot: Record<SpecialAbilityType, string> = {
   normal: 'bg-blue-500',
   rare: 'bg-red-500',
