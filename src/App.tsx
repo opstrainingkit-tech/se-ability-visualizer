@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import type { EngineerProfile, MainAbility, SpecialAbility } from './types/ability'
-import { initialMainAbilities, initialSpecialAbilities } from './data/abilities'
+import type { EngineerProfile, MainAbility } from './types/ability'
+import { initialMainAbilities } from './data/abilities'
+import { sanitizeSelectedIds } from './data/specialAbilities'
 import { loadFromStorage, saveToStorage } from './utils/storage'
 import { trackStartInput, trackShowResult, trackBackToInput, trackResetForm } from './utils/analytics'
 import TopPage from './pages/TopPage'
@@ -20,19 +21,19 @@ function App() {
   const [mainAbilities, setMainAbilities] = useState<MainAbility[]>(
     saved?.mainAbilities ?? initialMainAbilities
   )
-  const [specialAbilities, setSpecialAbilities] = useState<SpecialAbility[]>(
-    saved?.specialAbilities ?? initialSpecialAbilities
+  const [selectedSpecialIds, setSelectedSpecialIds] = useState<string[]>(
+    sanitizeSelectedIds(saved?.selectedSpecialIds)
   )
 
   // 状態変化時に自動保存
   useEffect(() => {
-    saveToStorage({ profile, mainAbilities, specialAbilities })
-  }, [profile, mainAbilities, specialAbilities])
+    saveToStorage({ profile, mainAbilities, selectedSpecialIds })
+  }, [profile, mainAbilities, selectedSpecialIds])
 
   const handleReset = () => {
     setProfile({ name: '', typeName: '', comment: '' })
     setMainAbilities(initialMainAbilities)
-    setSpecialAbilities(initialSpecialAbilities)
+    setSelectedSpecialIds([])
   }
 
   return (
@@ -45,10 +46,10 @@ function App() {
         <InputPage
           profile={profile}
           mainAbilities={mainAbilities}
-          specialAbilities={specialAbilities}
+          selectedSpecialIds={selectedSpecialIds}
           onProfileChange={setProfile}
           onMainAbilitiesChange={setMainAbilities}
-          onSpecialAbilitiesChange={setSpecialAbilities}
+          onSelectedSpecialIdsChange={setSelectedSpecialIds}
           onSubmit={() => { trackShowResult(); setScreen('result') }}
           onBack={() => setScreen('top')}
         />
@@ -56,7 +57,7 @@ function App() {
 
       {screen === 'result' && (
         <ResultPage
-          data={{ profile, mainAbilities, specialAbilities }}
+          data={{ profile, mainAbilities, selectedSpecialIds }}
           onBack={() => { trackBackToInput(); setScreen('input') }}
           onReset={() => { trackResetForm(); handleReset(); setScreen('top') }}
         />

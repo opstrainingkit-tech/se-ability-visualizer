@@ -1,5 +1,6 @@
 import type { AbilityCardData, MainAbilityId, Rank } from '../types/ability'
 import { getRank } from '../utils/getRank'
+import { resolveSpecialAbilities } from '../data/specialAbilities'
 
 interface StatusCardProps {
   data: AbilityCardData
@@ -29,8 +30,8 @@ const abilityIcon: Record<MainAbilityId, string> = {
 const rankImg = (rank: Rank) => `/assets/ranks/rank-${rank.toLowerCase()}.png`
 
 export default function StatusCard({ data }: StatusCardProps) {
-  const { profile, mainAbilities, specialAbilities } = data
-  const selected = specialAbilities.filter(a => a.selected)
+  const { profile, mainAbilities, selectedSpecialIds } = data
+  const selected = resolveSpecialAbilities(selectedSpecialIds)
   const avg = Math.round(
     mainAbilities.reduce((sum, a) => sum + a.score, 0) / mainAbilities.length
   )
@@ -152,7 +153,7 @@ export default function StatusCard({ data }: StatusCardProps) {
                     key={ability.id}
                     className="bg-blue-50 border border-blue-200 text-blue-700 text-xs px-2.5 py-1 rounded-full"
                   >
-                    {ability.label}
+                    {ability.name}
                   </span>
                 ))}
               </div>

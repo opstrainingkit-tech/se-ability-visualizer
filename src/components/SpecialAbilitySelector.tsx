@@ -1,21 +1,25 @@
-import type { SpecialAbility } from '../types/ability'
+import { specialAbilityMaster, SPECIAL_SELECT_LIMIT } from '../data/specialAbilities'
 
 interface SpecialAbilitySelectorProps {
-  specialAbilities: SpecialAbility[]
-  onChange: (abilities: SpecialAbility[]) => void
+  selectedIds: string[]
+  onChange: (ids: string[]) => void
 }
 
 export default function SpecialAbilitySelector({
-  specialAbilities,
+  selectedIds,
   onChange,
 }: SpecialAbilitySelectorProps) {
-  const toggle = (id: string) => {
-    onChange(
-      specialAbilities.map(a => a.id === id ? { ...a, selected: !a.selected } : a)
-    )
-  }
+  const selectedCount = selectedIds.length
+  const limitReached = selectedCount >= SPECIAL_SELECT_LIMIT
 
-  const selectedCount = specialAbilities.filter(a => a.selected).length
+  const toggle = (id: string) => {
+    if (selectedIds.includes(id)) {
+      onChange(selectedIds.filter(x => x !== id))
+    } else {
+      if (limitReached) return
+      onChange([...selectedIds, id])
+    }
+  }
 
   return (
     <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-2xl p-5 shadow-lg shadow-blue-900/10">
@@ -25,28 +29,35 @@ export default function SpecialAbilitySelector({
           alt="特殊能力"
           className="h-11 mx-auto"
         />
-        <span className="absolute right-0 top-1/2 -translate-y-1/2 text-slate-500 text-xs">
-          {selectedCount} 選択中
+        <span className="absolute right-0 top-1/2 -translate-y-1/2 text-slate-500 text-xs tabular-nums">
+          {selectedCount} / {SPECIAL_SELECT_LIMIT}
         </span>
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {specialAbilities.map(ability => (
-          <button
-            key={ability.id}
-            onClick={() => toggle(ability.id)}
-            className={`
-              px-3 py-1 rounded-full text-xs font-medium border transition-colors duration-150
-              ${ability.selected
-                ? 'bg-blue-600 border-blue-600 text-white shadow-sm'
-                : 'bg-white border-slate-300 text-slate-600 hover:border-blue-400 hover:text-blue-600'
-              }
-            `}
-          >
-            {ability.selected && <span className="mr-1">✓</span>}
-            {ability.label}
-          </button>
-        ))}
+        {specialAbilityMaster.map(ability => {
+          const isSelected = selectedIds.includes(ability.id)
+          const disabled = !isSelected && limitReached
+          return (
+            <button
+              key={ability.id}
+              onClick={() => toggle(ability.id)}
+              disabled={disabled}
+              className={`
+                px-3 py-1 rounded-full text-xs font-medium border transition-colors duration-150
+                ${isSelected
+                  ? 'bg-blue-600 border-blue-600 text-white shadow-sm'
+                  : disabled
+                    ? 'bg-slate-100 border-slate-200 text-slate-300 cursor-not-allowed'
+                    : 'bg-white border-slate-300 text-slate-600 hover:border-blue-400 hover:text-blue-600'
+                }
+              `}
+            >
+              {isSelected && <span className="mr-1">✓</span>}
+              {ability.name}
+            </button>
+          )
+        })}
       </div>
     </div>
   )

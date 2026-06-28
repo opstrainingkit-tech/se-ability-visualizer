@@ -1,4 +1,4 @@
-import type { EngineerProfile, MainAbility, SpecialAbility } from '../types/ability'
+import type { EngineerProfile, MainAbility } from '../types/ability'
 import ProfileForm from '../components/ProfileForm'
 import MainAbilityForm from '../components/MainAbilityForm'
 import SpecialAbilitySelector from '../components/SpecialAbilitySelector'
@@ -6,10 +6,10 @@ import SpecialAbilitySelector from '../components/SpecialAbilitySelector'
 interface InputPageProps {
   profile: EngineerProfile
   mainAbilities: MainAbility[]
-  specialAbilities: SpecialAbility[]
+  selectedSpecialIds: string[]
   onProfileChange: (profile: EngineerProfile) => void
   onMainAbilitiesChange: (abilities: MainAbility[]) => void
-  onSpecialAbilitiesChange: (abilities: SpecialAbility[]) => void
+  onSelectedSpecialIdsChange: (ids: string[]) => void
   onSubmit: () => void
   onBack: () => void
 }
@@ -17,10 +17,10 @@ interface InputPageProps {
 export default function InputPage({
   profile,
   mainAbilities,
-  specialAbilities,
+  selectedSpecialIds,
   onProfileChange,
   onMainAbilitiesChange,
-  onSpecialAbilitiesChange,
+  onSelectedSpecialIdsChange,
   onSubmit,
   onBack,
 }: InputPageProps) {
@@ -53,8 +53,8 @@ export default function InputPage({
         />
 
         <SpecialAbilitySelector
-          specialAbilities={specialAbilities}
-          onChange={onSpecialAbilitiesChange}
+          selectedIds={selectedSpecialIds}
+          onChange={onSelectedSpecialIdsChange}
         />
 
         {/* 送信ボタン（画像ボタン＋テキスト） */}
