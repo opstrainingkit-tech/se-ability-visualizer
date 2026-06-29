@@ -5,6 +5,7 @@ import {
   specialTypeOrder,
   specialTypeMeta,
   specialTypeTagClass,
+  specialTypeIcon,
   categoryLabel,
   resolveSpecialAbilities,
   SPECIAL_SELECT_LIMIT,
@@ -87,7 +88,7 @@ export default function SpecialAbilityPage({ selectedIds, onChange }: SpecialAbi
     >
       {/* ヘッダー */}
       <div className="sticky top-0 z-10 bg-white/70 backdrop-blur-md border-b border-white/60 px-5 py-3">
-        <h1 className="text-blue-900 font-bold text-lg text-center">特殊能力</h1>
+        <h1 className="text-blue-900 font-bold text-lg text-center">アビリティ</h1>
       </div>
 
       <div className="max-w-lg mx-auto px-4 py-5 pb-28 space-y-4">
@@ -125,7 +126,7 @@ export default function SpecialAbilityPage({ selectedIds, onChange }: SpecialAbi
             type="text"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder="特殊能力を検索"
+            placeholder="アビリティを検索"
             className="flex-1 bg-transparent text-sm text-slate-800 placeholder-slate-400 outline-none"
           />
           {search && (
@@ -139,16 +140,18 @@ export default function SpecialAbilityPage({ selectedIds, onChange }: SpecialAbi
             {(['all', ...specialTypeOrder] as const).map(t => {
               const isActive = activeType === t
               const label = t === 'all' ? 'すべて' : shortTypeLabel(t)
+              const icon = t === 'all' ? undefined : specialTypeIcon[t]
               return (
                 <button
                   key={t}
                   onClick={() => changeType(t)}
-                  className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
+                  className={`shrink-0 flex items-center gap-1 px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
                     isActive
                       ? 'bg-blue-600 border-blue-600 text-white shadow-sm'
                       : 'bg-white/80 border-slate-300 text-slate-600'
                   }`}
                 >
+                  {icon && <img src={icon} alt="" aria-hidden className="w-4 h-4 drop-shadow-sm" />}
                   {label}
                 </button>
               )
@@ -182,7 +185,7 @@ export default function SpecialAbilityPage({ selectedIds, onChange }: SpecialAbi
         {/* 候補一覧（コンパクト行） */}
         <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-2xl shadow-lg shadow-blue-900/10 overflow-hidden divide-y divide-slate-100">
           {list.length === 0 ? (
-            <p className="text-slate-400 text-sm text-center py-8">該当する特殊能力がありません</p>
+            <p className="text-slate-400 text-sm text-center py-8">該当するアビリティがありません</p>
           ) : (
             list.map(a => {
               const isSelected = selectedIds.includes(a.id)
@@ -196,7 +199,13 @@ export default function SpecialAbilityPage({ selectedIds, onChange }: SpecialAbi
                     isSelected ? 'bg-blue-50/70' : disabled ? 'opacity-40' : 'hover:bg-slate-50'
                   }`}
                 >
-                  <span className={`w-2 h-2 rounded-full shrink-0 ${typeDot[a.type]}`} />
+                  {specialTypeIcon[a.type] ? (
+                    <img src={specialTypeIcon[a.type]} alt="" aria-hidden className="w-5 h-5 shrink-0 drop-shadow-sm" />
+                  ) : (
+                    <span className={`w-5 h-5 shrink-0 flex items-center justify-center`}>
+                      <span className={`w-2 h-2 rounded-full ${typeDot[a.type]}`} />
+                    </span>
+                  )}
                   <span className="flex-1 text-sm text-slate-800 truncate">{a.name}</span>
                   <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${typeBadge[a.type]}`}>
                     {shortTypeLabel(a.type)}

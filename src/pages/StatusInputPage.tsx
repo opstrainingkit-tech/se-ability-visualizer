@@ -53,7 +53,7 @@ export default function StatusInputPage({
         </div>
 
         <p className="text-center text-blue-900/70 text-xs">
-          特殊能力は下のメニューから選べます
+          アビリティは下のメニューから選べます
         </p>
 
       </div>

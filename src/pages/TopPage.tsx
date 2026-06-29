@@ -23,7 +23,7 @@ export default function TopPage({ onStart, onShowResult }: TopPageProps) {
           ITエンジニアの能力を<br className="sm:hidden" />ステータス画面風に可視化します
           <br />
           <span className="text-blue-700 text-xs">
-            ① ステータス入力 → ② 特殊能力を選ぶ → ③ 結果を見る
+            ① ステータス入力 → ② アビリティを選ぶ → ③ 結果を見る
           </span>
         </p>
 
