@@ -32,13 +32,15 @@ export const specialTypeTagClass: Record<SpecialAbilityType, string> = {
   growth: 'bg-slate-200 text-slate-600 border-slate-300',
 }
 
-// 種別 → 分類アイコン画像（苦手/成長中は未用意のため undefined）
-export const specialTypeIcon: Partial<Record<SpecialAbilityType, string>> = {
+// 種別 → 分類アイコン画像（全7種）
+export const specialTypeIcon: Record<SpecialAbilityType, string> = {
   normal: '/assets/special/class-blue-gear.png',
   rare: '/assets/special/class-red-flame.png',
   achievement: '/assets/special/class-gold-trophy.png',
   ai: '/assets/special/class-purple-ai.png',
   certification: '/assets/special/class-green-certification.png',
+  negative: '/assets/special/class-black-weak.png',
+  growth: '/assets/special/class-gray-growth.png',
 }
 
 // 種別タブの並び順
