@@ -36,7 +36,7 @@ function StarIcon({ className }: { className?: string }) {
 const items: { key: TabKey; label: string; Icon: (p: { className?: string }) => React.ReactElement }[] = [
   { key: 'top', label: 'TOP', Icon: HomeIcon },
   { key: 'status', label: 'ステータス', Icon: StatusIcon },
-  { key: 'special', label: '特殊能力', Icon: StarIcon },
+  { key: 'special', label: 'アビリティ', Icon: StarIcon },
 ]
 
 export default function BottomNav({ active, onChange, selectedCount }: BottomNavProps) {

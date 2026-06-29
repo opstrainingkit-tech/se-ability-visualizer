@@ -88,7 +88,7 @@ export default function SpecialAbilityPage({ selectedIds, onChange }: SpecialAbi
     >
       {/* ヘッダー */}
       <div className="sticky top-0 z-10 bg-white/70 backdrop-blur-md border-b border-white/60 px-5 py-3">
-        <h1 className="text-blue-900 font-bold text-lg text-center">特殊能力</h1>
+        <h1 className="text-blue-900 font-bold text-lg text-center">アビリティ</h1>
       </div>
 
       <div className="max-w-lg mx-auto px-4 py-5 pb-28 space-y-4">
@@ -126,7 +126,7 @@ export default function SpecialAbilityPage({ selectedIds, onChange }: SpecialAbi
             type="text"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder="特殊能力を検索"
+            placeholder="アビリティを検索"
             className="flex-1 bg-transparent text-sm text-slate-800 placeholder-slate-400 outline-none"
           />
           {search && (
@@ -185,7 +185,7 @@ export default function SpecialAbilityPage({ selectedIds, onChange }: SpecialAbi
         {/* 候補一覧（コンパクト行） */}
         <div className="bg-white/90 backdrop-blur-sm border border-white/60 rounded-2xl shadow-lg shadow-blue-900/10 overflow-hidden divide-y divide-slate-100">
           {list.length === 0 ? (
-            <p className="text-slate-400 text-sm text-center py-8">該当する特殊能力がありません</p>
+            <p className="text-slate-400 text-sm text-center py-8">該当するアビリティがありません</p>
           ) : (
             list.map(a => {
               const isSelected = selectedIds.includes(a.id)
