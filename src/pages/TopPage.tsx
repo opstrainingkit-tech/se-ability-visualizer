@@ -44,12 +44,12 @@ export default function TopPage({ onStart, onShowResult, onStartAssessment }: To
           </span>
         </button>
 
-        {/* アンケートで自動診断 */}
+        {/* 診断する */}
         <button
           onClick={onStartAssessment}
           className="mt-4 w-72 py-3 rounded-full bg-white/90 border border-blue-200 text-blue-700 text-sm font-bold shadow-sm hover:bg-white transition-colors"
         >
-          📝 アンケートで自動診断
+          📝 診断する
         </button>
 
         {/* 結果を見る */}

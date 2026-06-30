@@ -81,7 +81,7 @@ export default function AssessmentPage({ onComplete, onCancel }: AssessmentPageP
           <button onClick={onCancel} className="text-slate-500 hover:text-slate-700 text-sm">
             ✕ やめる
           </button>
-          <span className="text-blue-700 font-bold text-sm">能力測定アンケート</span>
+          <span className="text-blue-700 font-bold text-sm">能力測定診断</span>
           <span className="text-slate-500 text-xs tabular-nums">
             Q{firstQNo}–{lastQNo} / {allQuestions.length}
           </span>

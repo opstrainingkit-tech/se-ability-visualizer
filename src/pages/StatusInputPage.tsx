@@ -32,14 +32,14 @@ export default function StatusInputPage({
       {/* フォームエリア */}
       <div className="max-w-lg mx-auto px-5 py-6 pb-28 space-y-6">
 
-        {/* アンケート導線 */}
+        {/* 診断導線 */}
         <button
           onClick={onStartAssessment}
           className="w-full bg-white/90 border border-blue-200 rounded-2xl px-4 py-3 shadow-sm hover:bg-white transition-colors text-left flex items-center gap-3"
         >
           <span className="text-2xl">📝</span>
           <span>
-            <span className="block text-blue-800 font-bold text-sm">アンケートで自動診断</span>
+            <span className="block text-blue-800 font-bold text-sm">診断する</span>
             <span className="block text-slate-500 text-xs">迷ったら質問に答えるだけで能力値を自動算出</span>
           </span>
         </button>

@@ -1,8 +1,10 @@
 export type TabKey = 'top' | 'status' | 'special'
+// 下部ナビのキー（診断は全画面フローを開くアクション）
+export type NavKey = TabKey | 'assessment'
 
 interface BottomNavProps {
   active: TabKey | null
-  onChange: (tab: TabKey) => void
+  onChange: (key: NavKey) => void
   selectedCount: number
 }
 
@@ -33,8 +35,20 @@ function StarIcon({ className }: { className?: string }) {
   )
 }
 
-const items: { key: TabKey; label: string; Icon: (p: { className?: string }) => React.ReactElement }[] = [
+function AssessmentIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <rect x="5" y="3" width="14" height="18" rx="2" />
+      <path d="M9 3.5h6V6H9z" />
+      <path d="M8.5 11l1.5 1.5 2.5-3" />
+      <line x1="8" y1="16.5" x2="16" y2="16.5" />
+    </svg>
+  )
+}
+
+const items: { key: NavKey; label: string; Icon: (p: { className?: string }) => React.ReactElement }[] = [
   { key: 'top', label: 'TOP', Icon: HomeIcon },
+  { key: 'assessment', label: '診断', Icon: AssessmentIcon },
   { key: 'status', label: 'ステータス', Icon: StatusIcon },
   { key: 'special', label: 'アビリティ', Icon: StarIcon },
 ]

@@ -9,7 +9,7 @@ import { runAssessment } from './utils/assessment'
 import { loadFromStorage, saveToStorage } from './utils/storage'
 import { trackStartInput, trackShowResult, trackBackToInput, trackResetForm } from './utils/analytics'
 import BottomNav from './components/BottomNav'
-import type { TabKey } from './components/BottomNav'
+import type { TabKey, NavKey } from './components/BottomNav'
 import TopPage from './pages/TopPage'
 import StatusInputPage from './pages/StatusInputPage'
 import SpecialAbilityPage from './pages/SpecialAbilityPage'
@@ -67,10 +67,14 @@ function App() {
     setShowResult(true)
   }
 
-  const goTab = (t: TabKey) => {
+  const goTab = (key: NavKey) => {
     setShowResult(false)
+    if (key === 'assessment') {
+      setShowAssessment(true)
+      return
+    }
     setShowAssessment(false)
-    setTab(t)
+    setTab(key)
   }
 
   // アンケート（全画面・下部ナビ非表示）
