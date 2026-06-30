@@ -149,7 +149,7 @@ export default function AssessmentPage({ onComplete, onCancel }: AssessmentPageP
                     })}
                   </div>
                   {!item.q.multi && (
-                    <p className="text-slate-400 text-[10px] mt-2">1つ選択</p>
+                    <p className="text-slate-400 text-[10px] mt-2">1つ選択（任意）</p>
                   )}
                 </>
               )}

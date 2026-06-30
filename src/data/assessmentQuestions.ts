@@ -300,6 +300,7 @@ export const selectQuestions: SelectQuestion[] = [
     id: 'q31',
     text: '自分の現在の役割に一番近いものを選んでください',
     multi: false,
+    optional: true,
     options: [
       { value: 'learning', label: '学習中・未経験に近い' },
       { value: 'impl', label: '実装担当' },
@@ -308,12 +309,14 @@ export const selectQuestions: SelectQuestion[] = [
       { value: 'lead', label: 'リード・サブリード' },
       { value: 'management', label: 'マネジメント寄り' },
       { value: 'ai-indie', label: 'AI活用・個人開発寄り' },
+      { value: 'none', label: '回答しない' },
     ],
   },
   {
     id: 'q32',
     text: '結果カードで強調したい方向性を選んでください',
     multi: false,
+    optional: true,
     options: [
       { value: 'tech', label: '技術力を見せたい' },
       { value: 'field', label: '現場対応力を見せたい' },
@@ -322,6 +325,7 @@ export const selectQuestions: SelectQuestion[] = [
       { value: 'certification', label: '資格を見せたい' },
       { value: 'growth', label: '成長中であることを見せたい' },
       { value: 'negative', label: '苦手も含めてネタっぽく見せたい' },
+      { value: 'none', label: '特に強調しない' },
     ],
   },
 ]
