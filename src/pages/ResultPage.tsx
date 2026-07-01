@@ -5,11 +5,12 @@ import ShareActions from '../components/ShareActions'
 
 interface ResultPageProps {
   data: AbilityCardData
+  comment?: string
   onBack: () => void
   onReset: () => void
 }
 
-export default function ResultPage({ data, onBack, onReset }: ResultPageProps) {
+export default function ResultPage({ data, comment, onBack, onReset }: ResultPageProps) {
   const avg = Math.round(
     data.mainAbilities.reduce((sum, a) => sum + a.score, 0) / data.mainAbilities.length
   )
@@ -42,6 +43,16 @@ export default function ResultPage({ data, onBack, onReset }: ResultPageProps) {
       {/* カードエリア */}
       <div className="max-w-sm mx-auto px-4 py-8 pb-28">
         <StatusCard data={data} />
+
+        {/* 診断コメント（アンケート経由のとき） */}
+        {comment && (
+          <div className="mt-4 bg-white/85 backdrop-blur-sm border border-white/60 rounded-2xl px-4 py-3 shadow-sm">
+            <p className="text-slate-700 text-xs leading-relaxed">{comment}</p>
+            <p className="text-slate-400 text-[10px] mt-2">
+              ※この結果は、回答内容にもとづく自己理解用の目安です。
+            </p>
+          </div>
+        )}
 
         {/* 共有導線 */}
         <div className="mt-5">
