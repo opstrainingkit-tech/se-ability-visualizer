@@ -101,14 +101,14 @@ export default function StatusCard({ data, title }: StatusCardProps) {
                 className="w-9 h-9 shrink-0 drop-shadow-md"
               />
               <div
-                className="relative h-7 flex items-center px-4"
+                className="relative h-8 flex items-center justify-center px-8 max-w-full"
                 style={{
                   backgroundImage: `url('${plateByColor[title.colorType]}')`,
                   backgroundSize: '100% 100%',
                   backgroundRepeat: 'no-repeat',
                 }}
               >
-                <span className="text-white text-[11px] font-bold tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
+                <span className="text-white text-[10px] font-bold tracking-wide leading-none truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
                   {title.label}
                 </span>
               </div>
