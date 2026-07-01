@@ -1,16 +1,17 @@
 import type { AbilityCardData } from '../types/ability'
+import type { ResultTitle } from '../types/title'
 import { getRank } from '../utils/getRank'
 import StatusCard from '../components/StatusCard'
 import ShareActions from '../components/ShareActions'
 
 interface ResultPageProps {
   data: AbilityCardData
-  comment?: string
+  title: ResultTitle
   onBack: () => void
   onReset: () => void
 }
 
-export default function ResultPage({ data, comment, onBack, onReset }: ResultPageProps) {
+export default function ResultPage({ data, title, onBack, onReset }: ResultPageProps) {
   const avg = Math.round(
     data.mainAbilities.reduce((sum, a) => sum + a.score, 0) / data.mainAbilities.length
   )
@@ -42,17 +43,24 @@ export default function ResultPage({ data, comment, onBack, onReset }: ResultPag
 
       {/* カードエリア */}
       <div className="max-w-sm mx-auto px-4 py-8 pb-28">
-        <StatusCard data={data} />
+        <StatusCard data={data} title={title} />
 
-        {/* 診断コメント（アンケート経由のとき） */}
-        {comment && (
-          <div className="mt-4 bg-white/85 backdrop-blur-sm border border-white/60 rounded-2xl px-4 py-3 shadow-sm">
-            <p className="text-slate-700 text-xs leading-relaxed">{comment}</p>
-            <p className="text-slate-400 text-[10px] mt-2">
-              ※この結果は、回答内容にもとづく自己理解用の目安です。
-            </p>
-          </div>
-        )}
+        {/* 診断コメント（称号由来） */}
+        <div className="mt-4 bg-white/85 backdrop-blur-sm border border-white/60 rounded-2xl px-4 py-3 shadow-sm space-y-2">
+          <p className="text-blue-600 text-[10px] tracking-[0.2em] uppercase font-semibold">診断コメント</p>
+          <p className="text-slate-700 text-xs leading-relaxed">{title.detailComment}</p>
+          {title.growthComment && (
+            <div className="pt-1">
+              <p className="text-blue-600 text-[10px] tracking-[0.2em] uppercase font-semibold mb-1">
+                伸ばせる領域
+              </p>
+              <p className="text-slate-600 text-xs leading-relaxed">{title.growthComment}</p>
+            </div>
+          )}
+          <p className="text-slate-400 text-[10px] pt-1">
+            ※この結果は、回答内容にもとづく自己理解用の目安です。
+          </p>
+        </div>
 
         {/* 共有導線 */}
         <div className="mt-5">

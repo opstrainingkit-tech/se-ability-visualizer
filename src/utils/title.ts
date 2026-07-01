@@ -1,4 +1,4 @@
-import type { ResultTitle } from '../types/title'
+import type { ResultTitle, TitleContext } from '../types/title'
 import type { SpecialAbility } from '../types/ability'
 import type { StatScore } from '../types/assessment'
 import { STAT_KEYS } from '../types/assessment'
@@ -9,13 +9,6 @@ import {
   TITLE_ADOPT_THRESHOLD,
   type TitleScoreConfig,
 } from '../data/titles'
-
-// 称号算出のための追加コンテキスト（診断経由のときのみ埋まる）
-export interface TitleContext {
-  scaleAnswers?: Record<string, number>
-  emphasis?: string // Q32
-  role?: string // Q31
-}
 
 const cap = (n: number, max: number) => Math.min(n, max)
 

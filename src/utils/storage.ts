@@ -1,17 +1,23 @@
 import type { AbilityCardData, EngineerProfile, MainAbility } from '../types/ability'
+import type { TitleContext } from '../types/title'
 
 const KEY = 'se-ability-card'
+
+export interface StoredData extends AbilityCardData {
+  titleContext?: TitleContext
+}
 
 // 旧形式（特殊能力が selected を持つ配列）を含む保存データの型
 interface StoredShape {
   profile?: EngineerProfile
   mainAbilities?: MainAbility[]
   selectedSpecialIds?: string[]
+  titleContext?: TitleContext
   // legacy: { id, label, selected }[]
   specialAbilities?: { id: string; selected?: boolean }[]
 }
 
-export function saveToStorage(data: AbilityCardData): void {
+export function saveToStorage(data: StoredData): void {
   try {
     localStorage.setItem(KEY, JSON.stringify(data))
   } catch {
@@ -19,15 +25,16 @@ export function saveToStorage(data: AbilityCardData): void {
   }
 }
 
-export function loadFromStorage(): Partial<AbilityCardData> | null {
+export function loadFromStorage(): Partial<StoredData> | null {
   try {
     const raw = localStorage.getItem(KEY)
     if (!raw) return null
     const parsed = JSON.parse(raw) as StoredShape
-    const result: Partial<AbilityCardData> = {}
+    const result: Partial<StoredData> = {}
 
     if (parsed.profile) result.profile = parsed.profile
     if (Array.isArray(parsed.mainAbilities)) result.mainAbilities = parsed.mainAbilities
+    if (parsed.titleContext) result.titleContext = parsed.titleContext
 
     if (Array.isArray(parsed.selectedSpecialIds)) {
       result.selectedSpecialIds = parsed.selectedSpecialIds

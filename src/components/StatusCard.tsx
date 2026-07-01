@@ -1,9 +1,22 @@
 import type { AbilityCardData, MainAbilityId, Rank } from '../types/ability'
+import type { ResultTitle, TitleColorType } from '../types/title'
 import { getRank } from '../utils/getRank'
 import { resolveSpecialAbilities, specialTypeTagClass } from '../data/specialAbilities'
 
 interface StatusCardProps {
   data: AbilityCardData
+  title: ResultTitle
+}
+
+// 称号プレートの縁色＋発光
+const plateClass: Record<TitleColorType, string> = {
+  blue: 'border-blue-400 shadow-blue-500/40',
+  red: 'border-red-400 shadow-red-500/40',
+  gold: 'border-amber-400 shadow-amber-500/40',
+  purple: 'border-purple-400 shadow-purple-500/40',
+  green: 'border-green-400 shadow-green-500/40',
+  gray: 'border-slate-400 shadow-slate-500/30',
+  black: 'border-slate-600 shadow-slate-900/40',
 }
 
 const rankBar: Record<Rank, string> = {
@@ -29,7 +42,7 @@ const abilityIcon: Record<MainAbilityId, string> = {
 
 const rankImg = (rank: Rank) => `/assets/ranks/rank-${rank.toLowerCase()}.png`
 
-export default function StatusCard({ data }: StatusCardProps) {
+export default function StatusCard({ data, title }: StatusCardProps) {
   const { profile, mainAbilities, selectedSpecialIds } = data
   const selected = resolveSpecialAbilities(selectedSpecialIds)
   const avg = Math.round(
@@ -58,14 +71,20 @@ export default function StatusCard({ data }: StatusCardProps) {
             alt="アバター"
             className="w-16 h-16 rounded-full object-cover ring-2 ring-blue-300 shadow-md shadow-blue-900/15 shrink-0 bg-white"
           />
-          {/* 名前・タイプ */}
+          {/* 名前・称号 */}
           <div className="flex-1 min-w-0">
             <p className="text-slate-900 text-xl font-bold leading-tight truncate">
               {profile.name || '名前未入力'}
             </p>
-            <p className="text-blue-600 text-sm mt-0.5 truncate">
-              {profile.typeName || 'タイプ未入力'}
-            </p>
+            {/* 称号プレート */}
+            <div
+              className={`inline-flex items-center gap-1 mt-1 rounded-lg px-2.5 py-1 bg-gradient-to-r from-slate-800 to-slate-900 border-2 shadow-md ${plateClass[title.colorType]}`}
+            >
+              {title.iconId && (
+                <img src={title.iconId} alt="" aria-hidden className="w-4 h-4 drop-shadow" />
+              )}
+              <span className="text-white text-xs font-bold tracking-wide">{title.label}</span>
+            </div>
             {profile.comment && (
               <p className="text-slate-500 text-xs mt-1.5 italic leading-snug line-clamp-2">
                 "{profile.comment}"

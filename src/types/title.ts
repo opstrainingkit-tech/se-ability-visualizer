@@ -15,6 +15,13 @@ export type TitleType =
 
 export type TitleColorType = 'blue' | 'red' | 'gold' | 'purple' | 'green' | 'gray' | 'black'
 
+// 称号算出のための追加コンテキスト（診断経由のときのみ埋まる）
+export interface TitleContext {
+  scaleAnswers?: Record<string, number>
+  emphasis?: string // Q32
+  role?: string // Q31
+}
+
 // 称号マスタ1件
 export interface ResultTitle {
   id: string

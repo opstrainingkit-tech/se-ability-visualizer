@@ -5,7 +5,7 @@ import type { SpecialAbilityCategory, SpecialAbilityType } from '../types/abilit
 const ICON = (name: string) => `/assets/special/${name}.png`
 
 // 称号採用のしきい値（2経路で成立するよう12点固定ではなく緩め）
-export const TITLE_ADOPT_THRESHOLD = 7
+export const TITLE_ADOPT_THRESHOLD = 6
 
 // 称号マスタ（各タイプ1つ）
 export const resultTitles: ResultTitle[] = [
