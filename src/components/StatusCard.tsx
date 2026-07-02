@@ -1,9 +1,38 @@
 import type { AbilityCardData, MainAbilityId, Rank } from '../types/ability'
+import type { ResultTitle, TitleColorType, TitleType } from '../types/title'
 import { getRank } from '../utils/getRank'
 import { resolveSpecialAbilities, specialTypeTagClass } from '../data/specialAbilities'
 
 interface StatusCardProps {
   data: AbilityCardData
+  title: ResultTitle
+}
+
+// タイプ別エンブレム
+const emblemByType: Record<TitleType, string> = {
+  balanced: '/assets/titles/emblem-balanced.png',
+  developer: '/assets/titles/emblem-developer.png',
+  designer: '/assets/titles/emblem-designer.png',
+  infra: '/assets/titles/emblem-infra.png',
+  database: '/assets/titles/emblem-database.png',
+  lead: '/assets/titles/emblem-lead.png',
+  management: '/assets/titles/emblem-management.png',
+  ai: '/assets/titles/emblem-ai.png',
+  field_response: '/assets/titles/emblem-field.png',
+  achievement: '/assets/titles/emblem-achievement.png',
+  certification: '/assets/titles/emblem-certification.png',
+  growth: '/assets/titles/emblem-growth.png',
+  weakness_aware: '/assets/titles/emblem-weakness.png',
+}
+// 色別プレート背景
+const plateByColor: Record<TitleColorType, string> = {
+  blue: '/assets/titles/plate-blue.png',
+  red: '/assets/titles/plate-red.png',
+  gold: '/assets/titles/plate-gold.png',
+  purple: '/assets/titles/plate-purple.png',
+  green: '/assets/titles/plate-green.png',
+  gray: '/assets/titles/plate-gray.png',
+  black: '/assets/titles/plate-black.png',
 }
 
 const rankBar: Record<Rank, string> = {
@@ -29,7 +58,7 @@ const abilityIcon: Record<MainAbilityId, string> = {
 
 const rankImg = (rank: Rank) => `/assets/ranks/rank-${rank.toLowerCase()}.png`
 
-export default function StatusCard({ data }: StatusCardProps) {
+export default function StatusCard({ data, title }: StatusCardProps) {
   const { profile, mainAbilities, selectedSpecialIds } = data
   const selected = resolveSpecialAbilities(selectedSpecialIds)
   const avg = Math.round(
@@ -58,14 +87,32 @@ export default function StatusCard({ data }: StatusCardProps) {
             alt="アバター"
             className="w-16 h-16 rounded-full object-cover ring-2 ring-blue-300 shadow-md shadow-blue-900/15 shrink-0 bg-white"
           />
-          {/* 名前・タイプ */}
+          {/* 名前・称号 */}
           <div className="flex-1 min-w-0">
             <p className="text-slate-900 text-xl font-bold leading-tight truncate">
               {profile.name || '名前未入力'}
             </p>
-            <p className="text-blue-600 text-sm mt-0.5 truncate">
-              {profile.typeName || 'タイプ未入力'}
-            </p>
+            {/* 称号プレート（エンブレム＋プレート背景） */}
+            <div className="flex items-center gap-1.5 mt-1.5">
+              <img
+                src={emblemByType[title.type]}
+                alt=""
+                aria-hidden
+                className="w-9 h-9 shrink-0 drop-shadow-md"
+              />
+              <div
+                className="relative h-8 flex items-center justify-center px-8 max-w-full"
+                style={{
+                  backgroundImage: `url('${plateByColor[title.colorType]}')`,
+                  backgroundSize: '100% 100%',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              >
+                <span className="text-white text-[10px] font-bold tracking-wide leading-none truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
+                  {title.label}
+                </span>
+              </div>
+            </div>
             {profile.comment && (
               <p className="text-slate-500 text-xs mt-1.5 italic leading-snug line-clamp-2">
                 "{profile.comment}"

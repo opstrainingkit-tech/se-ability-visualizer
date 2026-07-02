@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 import type { EngineerProfile, MainAbility } from './types/ability'
-import type { AssessmentAnswers, StatKey } from './types/assessment'
+import type { AssessmentAnswers, StatKey, StatScore } from './types/assessment'
+import type { TitleContext } from './types/title'
 import { STAT_KEYS, statToMainAbility } from './types/assessment'
 import { initialMainAbilities } from './data/abilities'
 import { sanitizeSelectedIds } from './data/specialAbilities'
 import { SELECT_LIMIT } from './data/assessmentQuestions'
 import { runAssessment } from './utils/assessment'
+import { computeTitle } from './utils/title'
+import { computeInsights } from './utils/insights'
 import { loadFromStorage, saveToStorage } from './utils/storage'
 import { trackStartInput, trackShowResult, trackBackToInput, trackResetForm } from './utils/analytics'
 import BottomNav from './components/BottomNav'
@@ -20,7 +23,6 @@ function App() {
   const [tab, setTab] = useState<TabKey>('top')
   const [showResult, setShowResult] = useState(false)
   const [showAssessment, setShowAssessment] = useState(false)
-  const [assessmentComment, setAssessmentComment] = useState<string>('')
 
   const saved = loadFromStorage()
 
@@ -33,11 +35,23 @@ function App() {
   const [selectedSpecialIds, setSelectedSpecialIds] = useState<string[]>(
     sanitizeSelectedIds(saved?.selectedSpecialIds)
   )
+  const [titleContext, setTitleContext] = useState<TitleContext | undefined>(
+    saved?.titleContext
+  )
 
   // 状態変化時に自動保存
   useEffect(() => {
-    saveToStorage({ profile, mainAbilities, selectedSpecialIds })
-  }, [profile, mainAbilities, selectedSpecialIds])
+    saveToStorage({ profile, mainAbilities, selectedSpecialIds, titleContext })
+  }, [profile, mainAbilities, selectedSpecialIds, titleContext])
+
+  // mainAbilities から称号算出用の StatScore を作る
+  const stats: StatScore = STAT_KEYS.reduce((acc, k) => {
+    const a = mainAbilities.find(m => m.id === statToMainAbility[k])
+    acc[k] = a ? a.score : 0
+    return acc
+  }, {} as StatScore)
+  const title = computeTitle(stats, selectedSpecialIds, titleContext ?? {})
+  const insights = computeInsights(stats, titleContext ?? {})
 
   const openResult = () => {
     trackShowResult()
@@ -48,7 +62,7 @@ function App() {
     setProfile({ name: '', typeName: '', comment: '' })
     setMainAbilities(initialMainAbilities)
     setSelectedSpecialIds([])
-    setAssessmentComment('')
+    setTitleContext(undefined)
   }
 
   // アンケート完了 → 7能力へ反映＋おすすめを最大8個まで自動選択
@@ -61,7 +75,12 @@ function App() {
       })
     )
     setSelectedSpecialIds(result.suggestedAbilities.slice(0, SELECT_LIMIT).map(s => s.abilityId))
-    setAssessmentComment(result.comment)
+    // 称号算出用のコンテキストを保持（Q31/Q32・スケール回答）
+    setTitleContext({
+      scaleAnswers: answers.scale,
+      emphasis: (answers.select['q32'] ?? [])[0],
+      role: (answers.select['q31'] ?? [])[0],
+    })
     setShowAssessment(false)
     trackShowResult()
     setShowResult(true)
@@ -92,7 +111,8 @@ function App() {
       {showResult ? (
         <ResultPage
           data={{ profile, mainAbilities, selectedSpecialIds }}
-          comment={assessmentComment}
+          title={title}
+          insights={insights}
           onBack={() => { trackBackToInput(); setShowResult(false) }}
           onReset={() => { trackResetForm(); handleReset(); setShowResult(false); setTab('top') }}
         />
