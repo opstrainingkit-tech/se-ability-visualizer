@@ -1,7 +1,9 @@
+import { useRef } from 'react'
 import type { AbilityCardData } from '../types/ability'
 import type { ResultTitle } from '../types/title'
 import type { DiagnosisInsight, InsightKind } from '../types/insight'
 import { getRank } from '../utils/getRank'
+import { buildPostText } from '../utils/sharePost'
 import StatusCard from '../components/StatusCard'
 import ShareActions from '../components/ShareActions'
 
@@ -20,11 +22,30 @@ const insightStyle: Record<InsightKind, { border: string; heading: string }> = {
   nextGrowth: { border: 'border-green-200', heading: 'text-green-700' },
 }
 
+const APP_URL =
+  typeof window !== 'undefined' ? window.location.origin + '/' : 'https://se-ability-visualizer.vercel.app/'
+
 export default function ResultPage({ data, title, insights, onBack, onReset }: ResultPageProps) {
+  const cardRef = useRef<HTMLDivElement>(null)
+
   const avg = Math.round(
     data.mainAbilities.reduce((sum, a) => sum + a.score, 0) / data.mainAbilities.length
   )
   const overallRank = getRank(avg)
+
+  // 強み：上位2能力のラベル
+  const strengths = [...data.mainAbilities]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 2)
+    .map(a => a.label)
+
+  const postText = buildPostText({
+    title: title.label,
+    overallRank,
+    strengths,
+    appUrl: APP_URL,
+    hashtags: ['エンジニア', '個人開発'],
+  })
 
   return (
     <div
@@ -52,7 +73,15 @@ export default function ResultPage({ data, title, insights, onBack, onReset }: R
 
       {/* カードエリア */}
       <div className="max-w-sm mx-auto px-4 py-8 pb-28">
-        <StatusCard data={data} title={title} />
+        {/* 画像化対象（ステータスカード） */}
+        <div ref={cardRef}>
+          <StatusCard data={data} title={title} />
+        </div>
+
+        {/* 共有導線（結果カード直下） */}
+        <div className="mt-5">
+          <ShareActions cardRef={cardRef} postText={postText} appUrl={APP_URL} />
+        </div>
 
         {/* 診断コメント（称号由来） */}
         <div className="mt-4 bg-white/85 backdrop-blur-sm border border-white/60 rounded-2xl px-4 py-3 shadow-sm">
@@ -80,11 +109,6 @@ export default function ResultPage({ data, title, insights, onBack, onReset }: R
         <p className="text-slate-400 text-[10px] mt-3 px-1">
           ※この結果は、回答内容にもとづく自己理解用の目安です。
         </p>
-
-        {/* 共有導線 */}
-        <div className="mt-5">
-          <ShareActions rank={overallRank} avg={avg} />
-        </div>
       </div>
 
     </div>
