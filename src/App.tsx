@@ -8,6 +8,7 @@ import { sanitizeSelectedIds } from './data/specialAbilities'
 import { SELECT_LIMIT } from './data/assessmentQuestions'
 import { runAssessment } from './utils/assessment'
 import { computeTitle } from './utils/title'
+import { computeInsights } from './utils/insights'
 import { loadFromStorage, saveToStorage } from './utils/storage'
 import { trackStartInput, trackShowResult, trackBackToInput, trackResetForm } from './utils/analytics'
 import BottomNav from './components/BottomNav'
@@ -50,6 +51,7 @@ function App() {
     return acc
   }, {} as StatScore)
   const title = computeTitle(stats, selectedSpecialIds, titleContext ?? {})
+  const insights = computeInsights(stats, titleContext ?? {})
 
   const openResult = () => {
     trackShowResult()
@@ -110,6 +112,7 @@ function App() {
         <ResultPage
           data={{ profile, mainAbilities, selectedSpecialIds }}
           title={title}
+          insights={insights}
           onBack={() => { trackBackToInput(); setShowResult(false) }}
           onReset={() => { trackResetForm(); handleReset(); setShowResult(false); setTab('top') }}
         />
